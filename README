@@ -1,0 +1,44 @@
+README - TailorMed
+A monitoring tool that uses web scraping in order to locally maintain an updated
+database of the assistance programs in the Healthwell Foundation website
+(https://www.healthwellfoundation.org/).
+
+The project includes the following files:
+Assistance_Program_DB.py : mySQL database wrapper.
+Scraper.py : The web scraping tool
+UI_Interface.py : Simple UI Class for the database table
+demmo.py : a sample demmo file, containing the initialization of the database,
+values insertion and GUI representation.
+
+Some future tasks:
+* making a more complicated GUI interface with more features such as: insert,
+delete, search.
+* Guarding the inputs. At the moment I assumed The urls are valid and so are the
+rest of the database values. In the future a supervision should be added.
+* entities deletion - deleted web page should be detected and removed from the
+local database. Some clock system would be required in order to avoid temporary
+connection loss causing the deletion of relevant values.
+
+Important note:
+The demmo file assume there are mySQL server, username, password and a database.
+Make sure you know them and set them at the Assistance_Program_DB :
+connect_to_server and create_the_table functions.
+
+A simple python code for creating a database:
+        import mysql.connector
+        from mysql.connector import Error
+        try:
+            self.connection = mysql.connector.connect(
+                host="localhost",  # host name
+                user="root",  # your user name
+                passwd="password",  # your password
+            )
+        except Error as err:
+            print(f"Error: '{err}'")
+            return
+        query = "CREATE DATABASE mydatabase"
+        cursor = self.connection.cursor()
+        cursor.execute(query)
+        self.connection.commit()
+        self.connection.close()
+        cursor.close()
