@@ -31,6 +31,7 @@ class Demo:
         """
         self.scraper.get_multi_html(self.urls)
         htmls = self.scraper.website
+        self.scraper.reset_website()
         objs = self.url_parser.parse_url(self.urls,htmls)
         self.db.write(objs)
 
