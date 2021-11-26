@@ -35,6 +35,9 @@ class Scraper:
             return [] # else program will stop
         for url in urls: _thread.start_new_thread(self.get_html, (url,))
         while len(self.website.keys()) != len(urls): time.sleep(0.1)
+        website_copy = self.website
+        self.reset_website()
+        return website_copy
 
     def reset_website(self):
         """
@@ -49,12 +52,11 @@ class Scraper:
         If a change is detected the DB is updated.
         :return:
         """
-        self.reset_website()
         urls = self.db_manager.retrieve_primary()
         urls = [url[0] for url in urls]
         db_entities = self.db_manager.retrieve(urls)
-        self.get_multi_html(urls)
-        entities = self.url_parser.parse_url(urls, self.website)
+        website=self.get_multi_html(urls)
+        entities = self.url_parser.parse_url(urls, website)
         updated_entities=[]
         n=len(db_entities)
         for i in range(n):
